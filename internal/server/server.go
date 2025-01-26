@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/alwindoss/wink/internal/controllers"
 	"github.com/alwindoss/wink/internal/repository"
 	"github.com/alwindoss/wink/internal/service"
 	"github.com/go-chi/chi/v5"
@@ -26,6 +27,7 @@ func Run(cfg *Config) error {
 	}
 	goalsRepo := repository.NewGormGoalsRepository(db)
 	goalsSvc := service.NewGoalsService(goalsRepo)
+	goalsCtrl := controllers.NewGoalsController(goalsSvc)
 
 	r := chi.NewRouter()
 
@@ -39,8 +41,7 @@ func Run(cfg *Config) error {
 	// through ctx.Done() that the request has timed out and further
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
-
-	setupGoalsRoutes(r, goalsSvc)
+	setupGoalsRoutes(r, goalsCtrl)
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -55,9 +56,8 @@ func Run(cfg *Config) error {
 	return nil
 }
 
-func setupGoalsRoutes(m *chi.Mux, svc service.GoalsService) {
-	m.Route("/wink/api/v1", func(r chi.Router) {
-		ctrl := NewGoalsController(svc)
+func setupGoalsRoutes(m *chi.Mux, ctrl controllers.GoalsController) {
+	m.Route("/wink/v1", func(r chi.Router) {
 		r.Post("/goals", ctrl.CreateGoals)
 		r.Get("/goals", ctrl.FetchGoals)
 		r.Get("/goals/{goal_id}", ctrl.FetchGoal)

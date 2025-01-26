@@ -7,14 +7,16 @@ import (
 )
 
 type Goal struct {
-	Name        string
-	Description string
-	TargetDate  *time.Time
+	Name         string
+	Description  string
+	Achieved     bool
+	AchievedDate time.Time
+	TargetDate   time.Time
 }
 
 type GoalsService interface {
-	CreateGoal(g *Goal) error
-	CreateGoals(g []*Goal) error
+	CreateGoal(g *Goal) (uint, error)
+	CreateGoals(g []*Goal) (uint, error)
 	UpdateGoal(g *Goal) error
 	UpdateGoals(g []*Goal) error
 	FetchGoal(id string) (*Goal, error)
@@ -35,12 +37,23 @@ type goalsService struct {
 }
 
 // CreateGoal implements GoalsService.
-func (*goalsService) CreateGoal(g *Goal) error {
-	panic("unimplemented")
+func (s *goalsService) CreateGoal(g *Goal) (uint, error) {
+	repoGoal := repository.Goal{
+		Name:         g.Name,
+		Description:  g.Description,
+		Achieved:     g.Achieved,
+		AchievedDate: g.AchievedDate,
+		TargetDate:   g.TargetDate,
+	}
+	id, err := s.repo.CreateGoal(&repoGoal)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }
 
 // CreateGoals implements GoalsService.
-func (*goalsService) CreateGoals(g []*Goal) error {
+func (*goalsService) CreateGoals(g []*Goal) (uint, error) {
 	panic("unimplemented")
 }
 
