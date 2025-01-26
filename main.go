@@ -14,14 +14,16 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
+	host := os.Getenv("WINK_HOST")
+	port := os.Getenv("WINK_PORT")
 	if port == "" {
 		port = "8080"
 	}
 	addr := fmt.Sprintf("%s:%s", host, port)
+	dsn := os.Getenv("DB_URL")
 	cfg := server.Config{
 		Addr: addr,
+		DSN:  dsn,
 	}
 	err = server.Run(&cfg)
 	if err != nil {

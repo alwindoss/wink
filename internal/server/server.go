@@ -1,8 +1,9 @@
 package server
 
 import (
+	"fmt"
+	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/alwindoss/wink/internal/repository"
@@ -15,12 +16,11 @@ import (
 
 type Config struct {
 	Addr string
+	DSN  string
 }
 
 func Run(cfg *Config) error {
-	os.Getenv("DB_URL")
-	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(cfg.DSN), &gorm.Config{})
 	if err != nil {
 		return err
 	}
@@ -41,7 +41,13 @@ func Run(cfg *Config) error {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	setupGoalsRoutes(r, goalsSvc)
+	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "Pong @ %s", time.Now().String())
+	})
 
+	log.Printf("Listening on %s", cfg.Addr)
 	err = http.ListenAndServe(cfg.Addr, r)
 	if err != nil {
 		return err
