@@ -4,6 +4,8 @@ import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import SomePage from "./pages/SomePage";
+import HeaderComponent from "./components/HeaderComponent";
+import FooterComponent from "./components/FooterComponent";
 const options = {
   position: positions.TOP_RIGHT,
   timeout: 5000,
@@ -15,14 +17,16 @@ const options = {
 function App() {
   return (
     <AlertProvider template={AlertTemplate} {...options}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/somepage" element={<SomePage />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/notfound" element={<NotFound />} />
-          </Routes>
-        </Router>
+      <Router>
+        <HeaderComponent />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/somepage" element={<SomePage />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/notfound" element={<NotFound />} />
+        </Routes>
+      </Router>
+      <FooterComponent />
     </AlertProvider>
   );
 }
