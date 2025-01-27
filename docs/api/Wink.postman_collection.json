@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "5a494d3b-4153-4282-abf9-44943449bae2",
+		"name": "Wink",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "186548",
+		"_collection_link": "https://winter-flare-633504.postman.co/workspace/Alwin-Doss~23387dec-b9cb-415a-b29e-9d9cbba7d350/collection/186548-5a494d3b-4153-4282-abf9-44943449bae2?action=share&source=collection_link&creator=186548"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "Fetch all goals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/wink/v1/goals",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"wink",
+								"v1",
+								"goals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch one goal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/wink/v1/goals/:goal_id",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"wink",
+								"v1",
+								"goals",
+								":goal_id"
+							],
+							"variable": [
+								{
+									"key": "goal_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create goals",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Name of the Goal\",\n    \"description\": \"Description of the goal\",\n    \"target_date\": \"2012-04-23T18:25:43.511Z\",\n    \"achieved\": false,\n    \"achieved_date\": \"2012-04-23T18:25:43.511Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/wink/v1/goals",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"wink",
+								"v1",
+								"goals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update goals",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/wink/v1/goals/:goal_id",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"wink",
+								"v1",
+								"goals",
+								":goal_id"
+							],
+							"variable": [
+								{
+									"key": "goal_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete goals",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}:{{PORT}}/wink/v1/goals/:goal_id",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"wink",
+								"v1",
+								"goals",
+								":goal_id"
+							],
+							"variable": [
+								{
+									"key": "goal_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
